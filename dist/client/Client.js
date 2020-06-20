@@ -32,21 +32,22 @@ class Client {
      * Optional cb, otherwise returns promise
      * @param {string} id
      * @param {boolean | Function} toggle
+     * @param {string} personaId
      * @param {Function} cb
      * @return {any}
      */
-    toggleTyping(id, toggle, cb) {
+    toggleTyping(id, toggle, personaId, cb) {
         if (arguments.length === 3) {
-            return this.toggleAction(id, toggle, cb);
+            return this.toggleAction(id, toggle, cb, personaId);
             // tslint:disable-next-line
         }
         else {
             if (Object.prototype.toString.call(toggle) === '[object Function]') {
-                return this.sendAction(id, Client.typingOff, toggle);
+                return this.sendAction(id, Client.typingOff, toggle, personaId);
                 // tslint:disable-next-line
             }
             else {
-                return this.toggleAction(id, toggle);
+                return this.toggleAction(id, toggle, undefined, personaId);
             }
         }
     }
@@ -190,9 +191,9 @@ class Client {
         options.json = Object.assign(Object.assign({}, options.json), { message: payload, persona_id: personaId });
         return Utils_1.Utils.sendMessage(options, this.requestData, cb);
     }
-    sendAction(id, payload, cb) {
+    sendAction(id, payload, cb, personaId) {
         const options = this.generateBasicRequestPayload(id);
-        options.json = Object.assign(Object.assign({}, options.json), { sender_action: payload });
+        options.json = Object.assign(Object.assign({}, options.json), { sender_action: payload, persona_id: personaId });
         return Utils_1.Utils.sendMessage(options, this.requestData, cb);
     }
     generateBasicRequestPayload(id) {
@@ -202,13 +203,13 @@ class Client {
         options.json = { recipient: { id } };
         return options;
     }
-    toggleAction(id, toggleValue, cb) {
+    toggleAction(id, toggleValue, cb, personaId) {
         if (toggleValue) {
-            return this.sendAction(id, Client.typingOn, cb);
+            return this.sendAction(id, Client.typingOn, cb, personaId);
             // tslint:disable-next-line
         }
         else {
-            return this.sendAction(id, Client.typingOff, cb);
+            return this.sendAction(id, Client.typingOff, cb, personaId);
         }
     }
 }

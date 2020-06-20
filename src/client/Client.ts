@@ -57,19 +57,20 @@ export class Client {
      * Optional cb, otherwise returns promise
      * @param {string} id
      * @param {boolean | Function} toggle
+     * @param {string} personaId
      * @param {Function} cb
      * @return {any}
      */
-  public toggleTyping(id: string, toggle: boolean|Function, cb?: Function) {
+  public toggleTyping(id: string, toggle: boolean|Function, personaId?: string, cb?: Function) {
     if (arguments.length === 3) {
-      return this.toggleAction(id, <boolean>toggle, cb);
+      return this.toggleAction(id, <boolean>toggle, cb, personaId);
         // tslint:disable-next-line
     } else {
       if (Object.prototype.toString.call(toggle) === '[object Function]') {
-        return this.sendAction(id, Client.typingOff, <Function>toggle);
+        return this.sendAction(id, Client.typingOff, <Function>toggle, personaId);
           // tslint:disable-next-line
       } else {
-        return this.toggleAction(id, <boolean>toggle);
+        return this.toggleAction(id, <boolean>toggle, undefined, personaId);
       }
     }
   }
@@ -224,9 +225,9 @@ export class Client {
     return Utils.sendMessage(options, this.requestData, cb);
   }
 
-  private sendAction(id: string, payload: string, cb?: Function) {
+  private sendAction(id: string, payload: string, cb?: Function, personaId?: string) {
     const options = this.generateBasicRequestPayload(id);
-    options.json = { ...options.json, sender_action:payload };
+    options.json = { ...options.json, sender_action:payload, persona_id: personaId };
     return Utils.sendMessage(options, this.requestData, cb);
   }
 
@@ -238,12 +239,12 @@ export class Client {
     return options;
   }
 
-  private toggleAction(id: string, toggleValue: boolean, cb?: Function) {
+  private toggleAction(id: string, toggleValue: boolean, cb?: Function, personaId?: string) {
     if (toggleValue) {
-      return this.sendAction(id, Client.typingOn, cb);
+      return this.sendAction(id, Client.typingOn, cb, personaId);
         // tslint:disable-next-line
     } else {
-      return this.sendAction(id, Client.typingOff, cb);
+      return this.sendAction(id, Client.typingOff, cb, personaId);
     }
   }
 }

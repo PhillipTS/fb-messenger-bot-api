@@ -42,10 +42,11 @@ export declare class Client {
      * Optional cb, otherwise returns promise
      * @param {string} id
      * @param {boolean | Function} toggle
+     * @param {string} personaId
      * @param {Function} cb
      * @return {any}
      */
-    toggleTyping(id: string, toggle: boolean | Function, cb?: Function): Promise<unknown>;
+    toggleTyping(id: string, toggle: boolean | Function, personaId?: string, cb?: Function): Promise<unknown>;
     /**
      * Sends simple text message.
      * Optional cb, otherwise returns promise
