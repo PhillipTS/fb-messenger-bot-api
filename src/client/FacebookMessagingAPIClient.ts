@@ -81,8 +81,8 @@ export class FacebookMessagingAPIClient {
      * @param {Function} cb
      * @return {Promise<any>}
      */
-  public sendTextMessage(id: string, text: string, cb?: Function) {
-    return this.sendDisplayMessage(id, { text }, cb);
+  public sendTextMessage(id: string, text: string, personaId?: string, cb?: Function) {
+    return this.sendDisplayMessage(id, { text }, cb, personaId);
   }
 
     /**
@@ -216,9 +216,9 @@ export class FacebookMessagingAPIClient {
     return this.sendDisplayMessage(id, { attachment: payload }, cb);
   }
 
-  private sendDisplayMessage(id: string, payload: MessagePayload, cb?: Function) {
+  private sendDisplayMessage(id: string, payload: MessagePayload, cb?: Function, personaId?: string) {
     const options = this.generateBasicRequestPayload(id);
-    options.json = { ...options.json, message:payload };
+    options.json = { ...options.json, message:payload, persona_id: personaId };
     return Utils.sendMessage(options, this.requestData, cb);
   }
 

@@ -55,7 +55,7 @@ export declare class FacebookMessagingAPIClient {
      * @param {Function} cb
      * @return {Promise<any>}
      */
-    sendTextMessage(id: string, text: string, cb?: Function): Promise<unknown>;
+    sendTextMessage(id: string, text: string, personaId?: string, cb?: Function): Promise<unknown>;
     /**
      * imageUrlOrId can be either URL to Image or ID of previously uploaded one
      * Optional cb, otherwise returns promise

@@ -57,8 +57,8 @@ class FacebookMessagingAPIClient {
      * @param {Function} cb
      * @return {Promise<any>}
      */
-    sendTextMessage(id, text, cb) {
-        return this.sendDisplayMessage(id, { text }, cb);
+    sendTextMessage(id, text, personaId, cb) {
+        return this.sendDisplayMessage(id, { text }, cb, personaId);
     }
     /**
      * imageUrlOrId can be either URL to Image or ID of previously uploaded one
@@ -183,9 +183,9 @@ class FacebookMessagingAPIClient {
     sendAttachmentMessage(id, payload, cb) {
         return this.sendDisplayMessage(id, { attachment: payload }, cb);
     }
-    sendDisplayMessage(id, payload, cb) {
+    sendDisplayMessage(id, payload, cb, personaId) {
         const options = this.generateBasicRequestPayload(id);
-        options.json = Object.assign(Object.assign({}, options.json), { message: payload });
+        options.json = Object.assign(Object.assign({}, options.json), { message: payload, persona_id: personaId });
         return Utils_1.Utils.sendMessage(options, this.requestData, cb);
     }
     sendAction(id, payload, cb) {
