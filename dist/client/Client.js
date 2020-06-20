@@ -139,10 +139,11 @@ class Client {
      * @param {string} id
      * @param {string | AttachmentPayload} textOrAttachment
      * @param {IQuickReply[]} quickReplies
+     * @param {string} personaId
      * @param {Function} cb
      * @return {Promise<any>}
      */
-    sendQuickReplyMessage(id, textOrAttachment, quickReplies, cb) {
+    sendQuickReplyMessage(id, textOrAttachment, quickReplies, personaId, cb) {
         let payload;
         if (typeof textOrAttachment === 'string') {
             payload = { text: textOrAttachment, quick_replies: quickReplies };
@@ -150,7 +151,7 @@ class Client {
         else {
             payload = { attachment: textOrAttachment, quick_replies: quickReplies };
         }
-        return this.sendDisplayMessage(id, payload, cb);
+        return this.sendDisplayMessage(id, payload, cb, personaId);
     }
     /**
      *

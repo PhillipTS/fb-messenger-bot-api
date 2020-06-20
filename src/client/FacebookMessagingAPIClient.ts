@@ -169,17 +169,20 @@ export class FacebookMessagingAPIClient {
      * @param {string} id
      * @param {string | AttachmentPayload} textOrAttachment
      * @param {IQuickReply[]} quickReplies
+     * @param {string} personaId
      * @param {Function} cb
      * @return {Promise<any>}
      */
-  public sendQuickReplyMessage(id: string, textOrAttachment: string|AttachmentPayload, quickReplies: IQuickReply[], cb?: Function) {
+  public sendQuickReplyMessage(
+    id: string, textOrAttachment: string|AttachmentPayload, quickReplies: IQuickReply[], personaId?: string, cb?: Function,
+  ) {
     let payload;
     if (typeof textOrAttachment === 'string') {
       payload = { text: textOrAttachment, quick_replies: quickReplies };
     } else {
       payload = { attachment: textOrAttachment, quick_replies: quickReplies };
     }
-    return this.sendDisplayMessage(id, payload, cb);
+    return this.sendDisplayMessage(id, payload, cb, personaId);
   }
 
     /**

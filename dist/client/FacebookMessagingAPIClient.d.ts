@@ -120,10 +120,11 @@ export declare class FacebookMessagingAPIClient {
      * @param {string} id
      * @param {string | AttachmentPayload} textOrAttachment
      * @param {IQuickReply[]} quickReplies
+     * @param {string} personaId
      * @param {Function} cb
      * @return {Promise<any>}
      */
-    sendQuickReplyMessage(id: string, textOrAttachment: string | AttachmentPayload, quickReplies: IQuickReply[], cb?: Function): Promise<unknown>;
+    sendQuickReplyMessage(id: string, textOrAttachment: string | AttachmentPayload, quickReplies: IQuickReply[], personaId?: string, cb?: Function): Promise<unknown>;
     /**
      *
      * Optional cb, otherwise returns promise
