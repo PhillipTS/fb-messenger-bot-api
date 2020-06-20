@@ -79,10 +79,11 @@ export class Client {
      * Optional cb, otherwise returns promise
      * @param {string} id
      * @param {string} text
+     * @param {string} personaId
      * @param {Function} cb
      * @return {Promise<any>}
      */
-  public sendTextMessage(id: string, text: string, cb?: Function) {
+  public sendTextMessage(id: string, text: string, personaId?: string, cb?: Function) {
     return this.sendDisplayMessage(id, { text }, cb);
   }
 
@@ -217,9 +218,9 @@ export class Client {
     return this.sendDisplayMessage(id, { attachment: payload }, cb);
   }
 
-  private sendDisplayMessage(id: string, payload: MessagePayload, cb?: Function) {
+  private sendDisplayMessage(id: string, payload: MessagePayload, personaId: string, cb?: Function) {
     const options = this.generateBasicRequestPayload(id);
-    options.json = { ...options.json, message:payload };
+    options.json = { ...options.json, message:payload, persona_id: personaId };
     return Utils.sendMessage(options, this.requestData, cb);
   }
 
