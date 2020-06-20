@@ -55,6 +55,7 @@ class FacebookMessagingAPIClient {
      * Optional cb, otherwise returns promise
      * @param {string} id
      * @param {string} text
+     * @param {string} personaId
      * @param {Function} cb
      * @return {Promise<any>}
      */
@@ -66,11 +67,12 @@ class FacebookMessagingAPIClient {
      * Optional cb, otherwise returns promise
      * @param {string} id
      * @param {string} imageUrlOrId
+     * @param {string} personaId
      * @param {Function} cb
      * @return {Promise<any>}
      */
-    sendImageMessage(id, imageUrlOrId, cb) {
-        return this.sendUrlOrIdBasedMessage(id, enums_1.ATTACHMENT_TYPE.IMAGE, imageUrlOrId, cb);
+    sendImageMessage(id, imageUrlOrId, personaId, cb) {
+        return this.sendUrlOrIdBasedMessage(id, enums_1.ATTACHMENT_TYPE.IMAGE, imageUrlOrId, cb, personaId);
     }
     /**
      * audioUrlOrId can be either URL to audio clip or ID of previously uploaded one
@@ -171,7 +173,7 @@ class FacebookMessagingAPIClient {
         options.method = 'GET';
         return Utils_1.Utils.sendMessage(options, this.requestData, cb);
     }
-    sendUrlOrIdBasedMessage(id, type, urlOrId, cb) {
+    sendUrlOrIdBasedMessage(id, type, urlOrId, cb, personaId) {
         let payload;
         if (urlOrId.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g)) {
             payload = { type, payload: { is_reusable: true, url: urlOrId } };
@@ -179,10 +181,10 @@ class FacebookMessagingAPIClient {
         else {
             payload = { type, payload: { attachment_id: urlOrId } };
         }
-        return this.sendAttachmentMessage(id, payload, cb);
+        return this.sendAttachmentMessage(id, payload, cb, personaId);
     }
-    sendAttachmentMessage(id, payload, cb) {
-        return this.sendDisplayMessage(id, { attachment: payload }, cb);
+    sendAttachmentMessage(id, payload, cb, personaId) {
+        return this.sendDisplayMessage(id, { attachment: payload }, cb, personaId);
     }
     sendDisplayMessage(id, payload, cb, personaId) {
         const options = this.generateBasicRequestPayload(id);

@@ -93,11 +93,12 @@ export class Client {
      * Optional cb, otherwise returns promise
      * @param {string} id
      * @param {string} imageUrlOrId
+     * @param {string} personaId
      * @param {Function} cb
      * @return {Promise<any>}
      */
-  public sendImageMessage(id: string, imageUrlOrId: string, cb?: Function) {
-    return this.sendUrlOrIdBasedMessage(id, ATTACHMENT_TYPE.IMAGE, imageUrlOrId, cb);
+  public sendImageMessage(id: string, imageUrlOrId: string, personaId?: string, cb?: Function) {
+    return this.sendUrlOrIdBasedMessage(id, ATTACHMENT_TYPE.IMAGE, imageUrlOrId, cb, personaId);
   }
 
     /**
@@ -205,18 +206,18 @@ export class Client {
     return Utils.sendMessage(options, this.requestData, cb);
   }
 
-  private sendUrlOrIdBasedMessage(id: string, type: ATTACHMENT_TYPE, urlOrId: string, cb?: Function) {
+  private sendUrlOrIdBasedMessage(id: string, type: ATTACHMENT_TYPE, urlOrId: string, cb?: Function, personaId?: string) {
     let payload;
     if (urlOrId.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g)) {
       payload = { type, payload: { is_reusable: true, url: urlOrId } };
     } else {
       payload = { type, payload: { attachment_id: urlOrId } };
     }
-    return this.sendAttachmentMessage(id, payload, cb);
+    return this.sendAttachmentMessage(id, payload, cb, personaId);
   }
 
-  private sendAttachmentMessage(id: string, payload: AttachmentPayload, cb?: Function) {
-    return this.sendDisplayMessage(id, { attachment: payload }, cb);
+  private sendAttachmentMessage(id: string, payload: AttachmentPayload, cb?: Function, personaId?: string) {
+    return this.sendDisplayMessage(id, { attachment: payload }, cb, personaId);
   }
 
   private sendDisplayMessage(id: string, payload: MessagePayload, cb?: Function, personaId?: string) {

@@ -62,10 +62,11 @@ export declare class Client {
      * Optional cb, otherwise returns promise
      * @param {string} id
      * @param {string} imageUrlOrId
+     * @param {string} personaId
      * @param {Function} cb
      * @return {Promise<any>}
      */
-    sendImageMessage(id: string, imageUrlOrId: string, cb?: Function): Promise<unknown>;
+    sendImageMessage(id: string, imageUrlOrId: string, personaId?: string, cb?: Function): Promise<unknown>;
     /**
      * audioUrlOrId can be either URL to audio clip or ID of previously uploaded one
      * Optional cb, otherwise returns promise
